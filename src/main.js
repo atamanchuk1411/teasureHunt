@@ -1,0 +1,53 @@
+import './assets/styles/style.sass'
+
+const map = document.querySelector('#map')
+
+const mapWidth = 1280;
+const mapHeight = 1090;
+const treasureX = rand(60, mapWidth - 60);
+const treasureY = rand(60, mapHeight - 60);
+let found = false;
+
+function rand(min, max) {    
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+console.log(`Координати скарба: X = ${treasureX}, Y = ${treasureY}`);
+
+map.addEventListener('click', function(event) {
+    if (found) {
+        return;
+    } 
+
+    const clickX = event.clientX;
+    const clickY = event.clientY;
+
+    const distance = Math.sqrt(Math.pow(clickX - treasureX, 2) + Math.pow(clickY - treasureY, 2));
+
+    if (distance <= 20) {
+        found = true;
+        console.log("Попали! Ви виграли!")
+        const treasure = document.createElement('img');
+        treasure.className = 'teasure';
+        treasure.src = 'assets/images/teasure.svg'; 
+        treasure.alt = 'Скарб';
+        treasure.style.left = `${treasureX}px`;
+        treasure.style.top = `${treasureY}px`;
+        map.appendChild(treasure);
+    } else {
+        const cross = document.createElement('img');
+        cross.className = 'cross';
+        cross.src = 'assets/images/cross.svg'; 
+        cross.alt = 'Мимо';
+        cross.style.left = `${clickX}px`;
+        cross.style.top = `${clickY}px`;
+        map.appendChild(cross);
+        if (distance < 100) {
+            console.log("Гаряче")
+        } else if (distance < 200) {
+            console.log("Тепло")
+        } else {
+            console.log("Холодно")
+        }
+    }
+});
