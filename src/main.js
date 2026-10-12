@@ -1,11 +1,9 @@
 import './assets/styles/style.sass'
 
 const map = document.querySelector('#map')
-
-const mapWidth = 1280;
-const mapHeight = 500;
-const treasureX = rand(50, mapWidth - 50);
-const treasureY = rand(50, mapHeight - 50);
+const rect = map.getBoundingClientRect()
+const treasureX = rand(50, rect.width - 50);
+const treasureY = rand(50, rect.height - 50);
 let found = false;
 
 function rand(min, max) {    
@@ -24,7 +22,7 @@ map.addEventListener('click', function(event) {
 
     const distance = Math.sqrt(Math.pow(clickX - treasureX, 2) + Math.pow(clickY - treasureY, 2));
 
-    if (distance <= 20) {
+    if (distance <= 35) {
         found = true;
         console.log("Попали! Ви виграли!")
         const treasure = document.createElement('img');
@@ -43,11 +41,11 @@ map.addEventListener('click', function(event) {
         cross.style.top = `${clickY}px`;
         map.appendChild(cross);
         if (distance < 100) {
-            console.log("Гаряче")
-        } else if (distance < 200) {
-            console.log("Тепло")
+            console.log(`Гаряче: x(${clickX}) y(${clickY})`)
+        } else if (distance < 300) {
+            console.log(`Тепло: x(${clickX}) y(${clickY})`)
         } else {
-            console.log("Холодно")
+            console.log(`Холодно: x(${clickX}) y(${clickY})`)
         }
     }
 });
