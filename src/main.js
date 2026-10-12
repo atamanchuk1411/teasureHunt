@@ -3,9 +3,9 @@ import './assets/styles/style.sass'
 const map = document.querySelector('#map')
 
 const mapWidth = 1280;
-const mapHeight = 1090;
-const treasureX = rand(60, mapWidth - 60);
-const treasureY = rand(60, mapHeight - 60);
+const mapHeight = 500;
+const treasureX = rand(50, mapWidth - 50);
+const treasureY = rand(50, mapHeight - 50);
 let found = false;
 
 function rand(min, max) {    
