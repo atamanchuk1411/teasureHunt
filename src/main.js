@@ -4,6 +4,7 @@ const map = document.querySelector('#map')
 const rect = map.getBoundingClientRect()
 const treasureX = rand(50, rect.width - 50);
 const treasureY = rand(50, rect.height - 50);
+let mapContent = ""
 let found = false;
 
 function rand(min, max) {    
@@ -17,29 +18,21 @@ map.addEventListener('click', function(event) {
         return;
     } 
 
-    const clickX = event.clientX;
-    const clickY = event.clientY;
+    const clickX = event.clientX - rect.left + window.scrollX;
+    const clickY = event.clientY - rect.top + window.scrollY;
+    const moneyX = event.clientX - rect.left + window.scrollX;
+    const moneyY = event.clientY - rect.top + window.scrollY;
 
     const distance = Math.sqrt(Math.pow(clickX - treasureX, 2) + Math.pow(clickY - treasureY, 2));
 
     if (distance <= 35) {
         found = true;
         console.log("Попали! Ви виграли!")
-        const treasure = document.createElement('img');
-        treasure.className = 'teasure';
-        treasure.src = 'assets/images/teasure.svg'; 
-        treasure.alt = 'Скарб';
-        treasure.style.left = `${treasureX}px`;
-        treasure.style.top = `${treasureY}px`;
-        map.appendChild(treasure);
+        mapContent += `<img class="teasure" src="assets/images/teasure.svg" alt="Скарб" style="left: ${moneyX}px; top: ${moneyY}px;">`;
+        map.innerHTML = mapContent;
     } else {
-        const cross = document.createElement('img');
-        cross.className = 'cross';
-        cross.src = 'assets/images/cross.svg'; 
-        cross.alt = 'Мимо';
-        cross.style.left = `${clickX}px`;
-        cross.style.top = `${clickY}px`;
-        map.appendChild(cross);
+        mapContent += `<img class="cross" src="assets/images/cross.svg" alt="Мимо" style="left: ${clickX}px; top: ${clickY}px; position: absolute;">`;
+        map.innerHTML = mapContent;
         if (distance < 100) {
             console.log(`Гаряче: x(${clickX}) y(${clickY})`)
         } else if (distance < 300) {
